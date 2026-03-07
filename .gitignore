@@ -39,3 +39,18 @@
 
 # debug information files
 *.dwo
+
+# Formatting
+.clang-format
+
+# Build
+build/
+
+# Cmake compilation database (generated)
+compile_commands.json
+
+# roms
+roms/
+
+# cache
+.cache/
