@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 4.1)
 project(carbon LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
@@ -11,5 +11,8 @@ execute_process(
     ${CMAKE_SOURCE_DIR}/compile_commands.json
 )
 
-add_executable(carbon src/main.cpp)
+add_executable(carbon
+    src/main.cpp
+    src/bios.cpp
+)
 target_include_directories(carbon PRIVATE src)

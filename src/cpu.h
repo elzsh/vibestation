@@ -3,17 +3,15 @@
 #include "types.h"
 
 #include <array>
-#include <cstdint>
 
-class Cpu {
+class CPU {
 public:
-    Cpu();
+    CPU();
 
     void reset();
-
     void tick();
 
 private:
-    uint32_t pc{};
+    u32 pc{};
     std::array<u32, 32> registers{};
 };

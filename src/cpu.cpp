@@ -1,20 +1,17 @@
 #include "cpu.h"
 
-#include <cstdint>
-
-void Cpu::reset() {
+void CPU::reset() {
     registers.fill(0);
 
     pc = 0xbfc00000;
 }
 
-Cpu::Cpu() {
+CPU::CPU() {
     reset();
 }
 
-void Cpu::tick() {
-    // TODO: Fetch instruction from memory
-    uint32_t opcode = 0;
+void CPU::tick() {
+    // TODO: Read instruction from memory
 
     pc += 4;
 }
