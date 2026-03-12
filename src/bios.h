@@ -15,7 +15,8 @@ enum class Error {
 };
 
 enum : u32 {
-    SIZE = 0x80000,
+    BASE = 0x1FC00000,
+    SIZE = 0x80000,    // 512 KB
 };
 
 struct Image {

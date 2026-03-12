@@ -2,16 +2,9 @@
 
 #include "types.h"
 
-#include <array>
+namespace CPU {
 
-class CPU {
-public:
-    CPU();
-
-    void reset();
-    void tick();
-
-private:
-    u32 pc{};
-    std::array<u32, 32> registers{};
+struct State {
+    u32 pc{};    // address of the next instruction to execute
 };
+}    // namespace CPU

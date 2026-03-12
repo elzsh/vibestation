@@ -9,7 +9,7 @@ std::expected<BIOS::Image, BIOS::Error> BIOS::load_image(const std::filesystem::
         return std::unexpected(BIOS::Error::OpenFailed);
     }
 
-    if (file.tellg() != std::streampos(BIOS::SIZE)) {
+    if (file.tellg() != BIOS::SIZE) {
         return std::unexpected(BIOS::Error::InvalidSize);
     }
 
