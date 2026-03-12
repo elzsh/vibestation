@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 4.1)
-project(carbon LANGUAGES CXX)
+project(vibestation LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -11,8 +11,8 @@ execute_process(
     ${CMAKE_SOURCE_DIR}/compile_commands.json
 )
 
-add_executable(carbon
+add_executable(vibestation
     src/main.cpp
     src/bios.cpp
 )
-target_include_directories(carbon PRIVATE src)
+target_include_directories(vibestation PRIVATE src)
