@@ -18,3 +18,9 @@ enum class MemoryAccessType : u32 {
     Read,
     Write,
 };
+
+enum class MemoryAccessSize : u32 {
+    Byte,
+    HalfWord,
+    Word,
+};
