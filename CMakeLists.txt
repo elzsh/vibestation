@@ -11,8 +11,9 @@ execute_process(
     ${CMAKE_SOURCE_DIR}/compile_commands.json
 )
 
-add_executable(vibestation
-    src/main.cpp
+add_executable(vibestation src/main.cpp
     src/bios.cpp
+    src/bus.cpp
+    src/cpu.cpp
 )
 target_include_directories(vibestation PRIVATE src)
