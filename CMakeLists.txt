@@ -17,3 +17,5 @@ add_executable(vibestation src/main.cpp
     src/cpu.cpp
 )
 target_include_directories(vibestation PRIVATE src)
+
+target_compile_options(vibestation PRIVATE -Wall -Wextra -Wpedantic)

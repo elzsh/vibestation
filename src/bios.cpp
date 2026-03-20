@@ -1,30 +1,30 @@
 #include "bios.h"
 
 #include <fstream>
+#include <ios>
 
 namespace BIOS {
-
-std::expected<Image, Error> load_image(const std::filesystem::path& filepath) {
-    std::ifstream file(filepath, std::ios::binary | std::ios::ate);
-
-    if (!file) {
+std::expected<std::vector<u8>, Error> load_image(const std::filesystem::path& filepath) {
+    std::error_code ec;
+    auto size = std::filesystem::file_size(filepath, ec);
+    if (ec) {
         return std::unexpected(Error::OpenFailed);
     }
-
-    if (file.tellg() != BIOS::SIZE) {
+    if (size != SIZE) {
         return std::unexpected(Error::InvalidSize);
     }
 
-    file.seekg(0);
-
-    Image image;
-    image.data.resize(BIOS::SIZE);
-
-    if (!file.read(reinterpret_cast<char*>(image.data.data()), BIOS::SIZE)) {
-        return std::unexpected(Error::ReadFailed);
+    std::ifstream file(filepath, std::ios::binary);
+    if (!file) {
+        return std::unexpected(BIOS::Error::OpenFailed);
     }
 
-    return image;
-}
+    std::vector<u8> data(BIOS::SIZE);
 
+    if (!file.read(reinterpret_cast<char*>(data.data()), BIOS::SIZE)) {
+        return std::unexpected(BIOS::Error::ReadFailed);
+    }
+
+    return data;
+}
 }    // namespace BIOS

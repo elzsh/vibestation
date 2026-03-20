@@ -7,23 +7,15 @@
 #include <vector>
 
 namespace BIOS {
-
-enum : u32 {
-    SIZE = 0x80000,    // 512 KB
-    MASK = 0x7FFFF,    // SIZE - 1
-    BASE = 0x1FC00000,
-};
+constexpr u32 SIZE = 0x80000;       // 512 KB
+constexpr u32 MASK = 0x7FFFF;       // BIOS SIZE - 1
+constexpr u32 BASE = 0x1FC00000;    // KUSEG physical address
 
 enum class Error {
-    OpenFailed,
     InvalidSize,
+    OpenFailed,
     ReadFailed,
 };
 
-struct Image {
-    std::vector<u8> data;
-};
-
-std::expected<Image, Error> load_image(const std::filesystem::path& filepath);
-
+std::expected<std::vector<u8>, Error> load_image(const std::filesystem::path& filepath);
 }    // namespace BIOS

@@ -2,15 +2,15 @@
 
 #include "types.h"
 
-namespace CPU {
+struct Bus;
 
-struct State {
+struct CPU {
     u32 pc;
+    u32 next_pc;
+
+    void reset();
+    void tick(Bus& bus);
+
+private:
+    void decode_and_execute(u32 instruction);
 };
-
-extern State state;
-
-void Initialize();
-void RunNextInstruction();
-
-}    // namespace CPU

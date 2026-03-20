@@ -5,25 +5,21 @@
 #include <cstdio>
 #include <cstdlib>
 
-namespace CPU {
-
-State state{};
-
-void Initialize() {
-    state = {};
-    state.pc = 0xBFC00000;
+void CPU::reset() {
+    pc = 0xBFC00000;
+    next_pc = pc + 4;
 }
 
-static void DecodeAndExecute(u32 instruction) {
+void CPU::decode_and_execute(u32 instruction) {
     std::fprintf(stderr, "Unhandled instruction %08x\n", instruction);
     std::abort();
 }
 
-void RunNextInstruction() {
-    const u32 instruction = BUS::Load32(state.pc);
-    state.pc += 4;
+void CPU::tick(Bus& bus) {
+    u32 instruction = bus.load32(pc);
 
-    DecodeAndExecute(instruction);
+    pc = next_pc;
+    next_pc += 4;
+
+    decode_and_execute(instruction);
 }
-
-}    // namespace CPU

@@ -1,19 +1,33 @@
-#include "bios.h"
-#include "bus.h"
-#include "cpu.h"
+#include "system.h"
+
+#include <cstdio>
+#include <cstdlib>
+#include <memory>
+
+static const char* bios_error_string(BIOS::Error err) {
+    switch (err) {
+        case BIOS::Error::InvalidSize:
+            return "invalid size (expected 512KB)";
+        case BIOS::Error::OpenFailed:
+            return "failed to open file";
+        case BIOS::Error::ReadFailed:
+            return "failed to read file";
+    }
+    return "unknown error";
+}
 
 int main() {
-    auto result = BIOS::load_image("roms/SCPH1001.BIN");
-    if (!result) {
-        std::fprintf(stderr, "Failed to open BIOS\n");
+    auto psx = std::make_unique<System>();
+
+    if (auto result = psx->load_bios("roms/SCPH1001.BIN"); !result) {
+        std::fprintf(stderr, "BIOS load error: %s\n", bios_error_string(result.error()));
         return EXIT_FAILURE;
     }
 
-    BUS::Initialize(std::move(result->data));
-    CPU::Initialize();
+    psx->reset();
 
     for (;;) {
-        CPU::RunNextInstruction();
+        psx->cpu.tick(psx->bus);
     }
 
     return 0;
