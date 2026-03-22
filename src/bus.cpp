@@ -2,8 +2,6 @@
 
 #include "bios.h"
 
-#include <bit>
-#include <cassert>
 #include <cstdio>
 #include <cstring>
 
@@ -15,15 +13,13 @@ void Bus::set_handler(u32 base, u32 size, ReadHandler read_handler) {
     u32 start_page = base >> PAGE_SHIFT;
     u32 num_pages = (size + (1 << PAGE_SHIFT) - 1) >> PAGE_SHIFT;
 
-    assert(start_page + num_pages <= PAGE_COUNT);
-
     for (u32 i = 0; i < num_pages; i++) {
         read_handlers[start_page + i] = read_handler;
     }
 }
 
-void Bus::map_bios(std::vector<u8>&& bios_data) {
-    bios = std::move(bios_data);
+void Bus::map_bios(std::span<u8> bios_data) {
+    bios = bios_data;
     set_handler(BIOS::BASE, BIOS::SIZE, &bios_read);
 }
 

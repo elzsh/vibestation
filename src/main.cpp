@@ -1,13 +1,9 @@
 #include "system.h"
 
-#include <cstdio>
-#include <cstdlib>
-#include <memory>
-
 static const char* bios_error_string(BIOS::Error err) {
     switch (err) {
         case BIOS::Error::InvalidSize:
-            return "invalid size (expected 512KB)";
+            return "invalid size (expected 512 KB)";
         case BIOS::Error::OpenFailed:
             return "failed to open file";
         case BIOS::Error::ReadFailed:
@@ -30,5 +26,5 @@ int main() {
         psx->cpu.tick(psx->bus);
     }
 
-    return 0;
+    return EXIT_SUCCESS;
 }

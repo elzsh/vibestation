@@ -5,19 +5,24 @@
 #include "cpu.h"
 
 struct System {
+    std::vector<u8> bios;
     Bus bus;
     CPU cpu;
 
+    // Make System non-copyable
     System() = default;
     System(const System&) = delete;
     System& operator=(const System&) = delete;
 
     std::expected<void, BIOS::Error> load_bios(const std::filesystem::path& path) {
-        auto result = BIOS::load_image(path);
+        auto result = BIOS::load(path);
         if (!result) {
             return std::unexpected(result.error());
         }
-        bus.map_bios(std::move(*result));
+
+        bios = std::move(*result);
+        bus.map_bios(bios);
+
         return {};
     }
 

@@ -1,8 +1,7 @@
 #pragma once
 
+#include "bus.h"
 #include "types.h"
-
-struct Bus;
 
 struct CPU {
     u32 pc;

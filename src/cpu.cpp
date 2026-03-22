@@ -1,7 +1,5 @@
 #include "cpu.h"
 
-#include "bus.h"
-
 #include <cstdio>
 #include <cstdlib>
 
