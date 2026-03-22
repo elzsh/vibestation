@@ -7,7 +7,7 @@
 
 void CPU::reset() {
     pc = 0xBFC00000;
-    next_pc = pc + 4;
+    npc = pc + 4;
 }
 
 void CPU::decode_and_execute(Instruction inst) {
@@ -26,8 +26,8 @@ void CPU::decode_and_execute(Instruction inst) {
 void CPU::tick() {
     Instruction inst(bus->load32(pc));
 
-    pc = next_pc;
-    next_pc += 4;
+    pc = npc;
+    npc += 4;
 
     decode_and_execute(inst);
 }
