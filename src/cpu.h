@@ -13,5 +13,5 @@ struct CPU {
     void tick();
 
 private:
-    void decode_and_execute(u32 instruction);
+    void decode_and_execute(Instruction instruction);
 };
