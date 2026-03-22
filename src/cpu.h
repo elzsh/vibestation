@@ -6,8 +6,8 @@
 struct CPU {
     Bus* bus;
 
-    u32 pc;
-    u32 next_pc;
+    u32 pc{};
+    u32 next_pc{};
 
     void reset();
     void tick();
