@@ -23,7 +23,7 @@ int main() {
     psx->reset();
 
     for (;;) {
-        psx->cpu.tick(psx->bus);
+        psx->cpu.tick();
     }
 
     return EXIT_SUCCESS;

@@ -10,7 +10,8 @@ struct System {
     CPU cpu;
 
     // Make System non-copyable
-    System() = default;
+    System() { cpu.bus = &bus; }
+
     System(const System&) = delete;
     System& operator=(const System&) = delete;
 

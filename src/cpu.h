@@ -4,11 +4,13 @@
 #include "types.h"
 
 struct CPU {
+    Bus* bus;
+
     u32 pc;
     u32 next_pc;
 
     void reset();
-    void tick(Bus& bus);
+    void tick();
 
 private:
     void decode_and_execute(u32 instruction);

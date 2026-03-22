@@ -13,8 +13,8 @@ void CPU::decode_and_execute(u32 instruction) {
     std::abort();
 }
 
-void CPU::tick(Bus& bus) {
-    u32 instruction = bus.load32(pc);
+void CPU::tick() {
+    u32 instruction = bus->load32(pc);
 
     pc = next_pc;
     next_pc += 4;
