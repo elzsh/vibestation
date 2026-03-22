@@ -14,6 +14,10 @@ using s64 = int64_t;
 /*
  * CPU Types
  */
+enum class InstructionOp : u8 {
+    lui = 0x0F,
+};
+
 // clang-format off
 enum class Reg : u8 {
     zero, at, v0, v1, a0, a1, a2, a3,
@@ -27,6 +31,11 @@ enum class Reg : u8 {
 struct Registers {
     union {
         u32 r[static_cast<u8>(Reg::count)];
+
+#if defined(__clang__) || defined(__GNUC__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpedantic"
+#endif
 
         struct {
             u32 zero;    // r0
@@ -64,6 +73,10 @@ struct Registers {
             u32 hi;
             u32 lo;
         };
+
+#if defined(__clang__) || defined(__GNUC__)
+#pragma GCC diagnostic pop
+#endif
     };
 };
 
@@ -74,7 +87,7 @@ struct Instruction {
     constexpr explicit Instruction(u32 raw) : bits(raw) {}
 
     // pimary opcode [31..26] 6-bits
-    constexpr u8 op() const { return static_cast<u8>(bits >> 26); }
+    constexpr InstructionOp op() const { return static_cast<InstructionOp>(bits >> 26); }
 
     // register source [25..21] 5-bits
     constexpr u8 rs() const { return static_cast<u8>((bits >> 21) & 0x1F); }
