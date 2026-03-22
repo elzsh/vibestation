@@ -15,6 +15,7 @@ using s64 = int64_t;
  * CPU Types
  */
 enum class InstructionOp : u8 {
+    ori = 0x0D,
     lui = 0x0F,
 };
 

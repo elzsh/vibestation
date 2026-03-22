@@ -21,8 +21,11 @@ void CPU::decode_and_execute(Instruction inst) {
         case InstructionOp::lui:
             regs.r[inst.rt()] = inst.imm() << 16;
             break;
+        case InstructionOp::ori:
+            regs.r[inst.rt()] = regs.r[inst.rs()] | inst.imm();
+            break;
         default:
-            std::fprintf(stderr, "Unhandled instruction %08x\n", inst.bits);
+            std::fprintf(stderr, "Unhandled instruction 0x%08x\n", inst.bits);
             std::abort();
             break;
     }
