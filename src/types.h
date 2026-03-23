@@ -17,6 +17,7 @@ using s64 = int64_t;
 enum class InstructionOp : u8 {
     ori = 0x0D,
     lui = 0x0F,
+    sw = 0x2B,
 };
 
 // clang-format off
@@ -107,6 +108,12 @@ struct Instruction {
 
     // immediate [15..0] 16-bits
     constexpr u16 imm() const { return static_cast<u16>(bits & 0xFFFF); }
+
+    constexpr s16 imm_s() const { return static_cast<s16>(imm()); }
+
+    constexpr u32 imm_sext32() const { return static_cast<u32>(static_cast<s32>(imm_s())); }
+
+    constexpr u32 imm_zext32() const { return static_cast<u32>(imm()); }
 
     // jump target [25..0] 26-bits
     constexpr u32 target() const { return static_cast<u32>(bits & 0x3FFFFFF); }
