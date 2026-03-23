@@ -17,13 +17,22 @@ void CPU::reset() {
 }
 
 void CPU::decode_and_execute(Instruction inst) {
-    switch (inst.op()) {
-        case InstructionOp::lui:
-            regs.r[inst.rt()] = inst.imm() << 16;
-            break;
+    auto op = inst.op();
+    auto rt = inst.rt();
+    auto rs = inst.rs();
+
+    switch (op) {
         case InstructionOp::ori:
-            regs.r[inst.rt()] = regs.r[inst.rs()] | inst.imm();
+            regs.r[rt] = regs.r[rs] | inst.imm_zext32();
             break;
+        case InstructionOp::lui:
+            regs.r[rt] = inst.imm() << 16;
+            break;
+        case InstructionOp::sw: {
+            u32 addr = regs.r[rs] + inst.imm_sext32();
+            bus->store32(addr, regs.r[rt]);
+            break;
+        }
         default:
             std::fprintf(stderr, "Unhandled instruction 0x%08x\n", inst.bits);
             std::abort();

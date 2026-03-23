@@ -2,6 +2,8 @@
 
 #include "types.h"
 
+#include <cstdio>
+#include <cstdlib>
 #include <span>
 
 struct Bus {
@@ -14,8 +16,31 @@ struct Bus {
     Bus();
 
     u32 load32(u32 address) {
+        // if the two LSB are not 00
+        if ((address & 0x3) != 0) {
+            std::fprintf(stderr, "Unaligned load32 address: 0x%08x\n", address);
+            std::abort();
+        }
+
         u32 physical = address & 0x1FFFFFFF;    // Drop top 3 bits
         return read_handlers[physical >> PAGE_SHIFT](this, address);
+    }
+
+    void store32(u32 address, u32 val) {
+        // if the two LSB are not 00
+        if ((address & 0x3) != 0) {
+            std::fprintf(stderr, "Unaligned store32 address: 0x%08x\n", address);
+            std::abort();
+        }
+
+        // TODO: Implement write queue for single clock cycle write
+        std::fprintf(
+            stderr,
+            "Unhandled store32 of value 0x%08x into address 0x%08x\n",
+            val,
+            address
+        );
+        std::abort();
     }
 
     void map_bios(std::span<u8> bios_data);
@@ -25,6 +50,7 @@ private:
     std::array<ReadHandler, PAGE_COUNT> read_handlers;
 
     void set_handler(u32 base, u32 size, ReadHandler read_handler);
+
     static u32 unmapped_read(Bus* bus, u32 address);
     static u32 bios_read(Bus* bus, u32 address);
 };

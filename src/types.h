@@ -106,13 +106,16 @@ struct Instruction {
     // function code [5..0] 6-bits
     constexpr u8 funct() const { return static_cast<u8>(bits & 0x3F); }
 
-    // immediate [15..0] 16-bits
+    // unsigned immediate [15..0] 16-bits
     constexpr u16 imm() const { return static_cast<u16>(bits & 0xFFFF); }
 
+    // signed immediate [15..0] 16-bits
     constexpr s16 imm_s() const { return static_cast<s16>(imm()); }
 
+    // sign extended immediate [15..0] 32-bits
     constexpr u32 imm_sext32() const { return static_cast<u32>(static_cast<s32>(imm_s())); }
 
+    // zero extended immediate [15..0] 32-bits
     constexpr u32 imm_zext32() const { return static_cast<u32>(imm()); }
 
     // jump target [25..0] 26-bits
